@@ -25,12 +25,17 @@ public class registro extends javax.swing.JFrame {
     public registro() {
         initComponents();
         
-        String[] titulos = {"Nombre", "Apellidos", "Identificacion", "Direccion", "Telefono"};
+        botones.add(rbJuridica);
+        botones.add(rbNatural);
+        
+        String[] titulos = {"Nombre", "Apellidos", "Identificacion", "Direccion", "Telefono", "Persona/Juridica",
+            "Nit/Email", "Nacimiento/Tributaria"};
         
         modelo = new DefaultTableModel(null, titulos);
         tblClientes.setModel(modelo);
         mostrarDatos();
         limpiar();
+        
     }
 
     /**
@@ -42,6 +47,7 @@ public class registro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        botones = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblClientes = new javax.swing.JTable();
@@ -60,6 +66,12 @@ public class registro extends javax.swing.JFrame {
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        rbJuridica = new javax.swing.JRadioButton();
+        rbNatural = new javax.swing.JRadioButton();
+        jNitEmail = new javax.swing.JLabel();
+        txtNitEmail = new javax.swing.JTextField();
+        jNacimientoIdentificacion = new javax.swing.JLabel();
+        txtNacimientoIdentificacion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -169,6 +181,36 @@ public class registro extends javax.swing.JFrame {
             }
         });
 
+        rbJuridica.setText("Persona Juridica");
+        rbJuridica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbJuridicaActionPerformed(evt);
+            }
+        });
+
+        rbNatural.setText("Persona Natural");
+        rbNatural.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbNaturalActionPerformed(evt);
+            }
+        });
+
+        jNitEmail.setText("Email:");
+
+        txtNitEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNitEmailActionPerformed(evt);
+            }
+        });
+
+        jNacimientoIdentificacion.setText("# Identificacíon tributaria: ");
+
+        txtNacimientoIdentificacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNacimientoIdentificacionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -176,25 +218,42 @@ public class registro extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(35, 35, 35)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(51, 51, 51)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(106, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(65, 65, 65)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jNacimientoIdentificacion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNacimientoIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(rbJuridica, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jNitEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(41, 41, 41)
+                                .addComponent(rbNatural))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(txtNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(106, 106, 106))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +289,19 @@ public class registro extends javax.swing.JFrame {
                         .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCancelar)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbNatural)
+                    .addComponent(rbJuridica))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jNitEmail))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jNacimientoIdentificacion)
+                    .addComponent(txtNacimientoIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -240,7 +311,7 @@ public class registro extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -248,10 +319,10 @@ public class registro extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -283,11 +354,12 @@ public class registro extends javax.swing.JFrame {
         
         if(espaciosVacios() == true){
         }else{
-        
+            
             clientesBL oClientes = recuperarDatosGUI();
 
-            String strSentenciaInsert = String.format("INSERT INTO Clientes (Nombre, Apellidos, Identificacion, Direccion, Telefono)"
-                    + " VALUES ('%s', '%s', '%s', '%s','%s')", oClientes.getNombre(), oClientes.getApellidos(), oClientes.getId(), oClientes.getDireccion(), oClientes.getTelefono());        
+            String strSentenciaInsert = String.format("INSERT INTO Clientes (Nombre, Apellidos, Identificacion, Direccion, Telefono, Juridica_Natural, Nit_Email, Nacimiento_Tributaria)"
+                    + " VALUES ('%s', '%s', '%s', '%s','%s', '%s','%s', '%s')", oClientes.getNombre(), oClientes.getApellidos(), oClientes.getId(), oClientes.getDireccion(), 
+                    oClientes.getTelefono(), oClientes.getJuridica_natural(), oClientes.getNit_email(), oClientes.getNacimiento_tributaria());        
 
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
 
@@ -311,6 +383,18 @@ public class registro extends javax.swing.JFrame {
             txtID.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
             txtDireccion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 3).toString());
             txtTelefono.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 4).toString());
+            if("Natural".equals(receptor.getModel().getValueAt(receptor.getSelectedRow(), 5).toString())){
+                rbNatural.setSelected(true);
+                juridicaNatural();
+                txtNitEmail.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
+                txtNacimientoIdentificacion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
+            }else{
+                rbJuridica.setSelected(true);
+                juridicaNatural();
+                txtNitEmail.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
+                txtNacimientoIdentificacion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
+            }
+            
             
         }
         
@@ -346,8 +430,10 @@ public class registro extends javax.swing.JFrame {
             clientesBL oClientes = recuperarDatosGUI();
         
             String strSentenciaInsert = String.format("UPDATE Clientes SET Nombre = '%s', Apellidos = '%s',"
-                + "Identificacion= '%s', Direccion = '%s', Telefono = '%s' WHERE Identificacion = %s", oClientes.getNombre(),
-                oClientes.getApellidos(), oClientes.getId(), oClientes.getDireccion(), oClientes.getTelefono(), oClientes.getId());        
+                + "Identificacion= '%s', Direccion = '%s', Telefono = '%s', Juridica_Natural = '%s', Nit_Email = '%s',"
+                + "Nacimiento_Tributaria = '%s' WHERE Identificacion = %s", oClientes.getNombre(), oClientes.getApellidos(), 
+                oClientes.getId(), oClientes.getDireccion(), oClientes.getTelefono(), oClientes.getJuridica_natural(),
+                oClientes.getNit_email(), oClientes.getNacimiento_tributaria(), oClientes.getId());        
         
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
         
@@ -363,6 +449,26 @@ public class registro extends javax.swing.JFrame {
         limpiar();
 
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void rbJuridicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbJuridicaActionPerformed
+        
+        juridicaNatural();
+        
+    }//GEN-LAST:event_rbJuridicaActionPerformed
+
+    private void rbNaturalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNaturalActionPerformed
+        
+        juridicaNatural();
+        
+    }//GEN-LAST:event_rbNaturalActionPerformed
+
+    private void txtNitEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNitEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNitEmailActionPerformed
+
+    private void txtNacimientoIdentificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNacimientoIdentificacionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNacimientoIdentificacionActionPerformed
 
     public void mostrarDatos(){
         
@@ -381,9 +487,20 @@ public class registro extends javax.swing.JFrame {
                 System.out.println( resultado.getString("Identificacion"));
                 System.out.println( resultado.getString("Direccion"));
                 System.out.println( resultado.getString("Telefono"));
+                System.out.println( resultado.getString("Juridica_Natural"));
+                System.out.println(resultado.getString("Nit_Email"));
+                System.out.println(resultado.getString("Nacimiento_Tributaria"));
+                
+                if("Natural".equals(resultado.getString("Juridica_Natural"))){
+                    rbNatural.setSelected(true);
+                    juridicaNatural();
+                }else{
+                    rbJuridica.setSelected(true);
+                    juridicaNatural();
+                }
                 
                 Object[] oCliente = {resultado.getString("Nombre"), resultado.getString("Apellidos"), resultado.getString("Identificacion"), 
-                resultado.getString("Direccion"), resultado.getString("Telefono")};
+                resultado.getString("Direccion"), resultado.getString("Telefono"), resultado.getString("Juridica_Natural"), resultado.getString("Nit_Email"), resultado.getString("Nacimiento_Tributaria")};
                 
                 modelo.addRow(oCliente);
             }
@@ -401,6 +518,13 @@ public class registro extends javax.swing.JFrame {
         oClientes.setId(txtID.getText());
         oClientes.setDireccion(txtDireccion.getText());
         oClientes.setTelefono(txtTelefono.getText());
+        if(rbNatural.isSelected()){
+            oClientes.setJuridica_natural("Natural");
+        }else{
+            oClientes.setJuridica_natural("Juridica");
+        }
+        oClientes.setNit_email(txtNitEmail.getText());
+        oClientes.setNacimiento_tributaria(txtNacimientoIdentificacion.getText());
         
         return oClientes;
     }
@@ -412,20 +536,48 @@ public class registro extends javax.swing.JFrame {
         txtID.setText("");
         txtDireccion.setText("");
         txtTelefono.setText("");
+        txtNitEmail.setText("");
+        txtNacimientoIdentificacion.setText("");
         
         btnAgregar.setEnabled(true);
         btnEditar.setEnabled(false);
         btnEliminar.setEnabled(false);
         
+        jNitEmail.setVisible(false);
+        jNacimientoIdentificacion.setVisible(false);
+        txtNitEmail.setVisible(false);
+        txtNacimientoIdentificacion.setVisible(false);
+        
+        botones.clearSelection();
+        
     }
     
     public boolean espaciosVacios(){
         if(txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty() || txtID.getText().isEmpty()
-                || txtDireccion.getText().isEmpty() || txtTelefono.getText().isEmpty()){
+                || txtDireccion.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtNitEmail.getText().isEmpty() ||
+                txtNacimientoIdentificacion.getText().isEmpty() || (rbJuridica.isSelected() == false && rbNatural.isSelected() == false)){
             JOptionPane.showMessageDialog(this, "Por Favor rellenar todos los campos");
             return true;
         }else{
             return false;
+        }
+    }
+    
+    public void juridicaNatural(){
+        if(rbJuridica.isSelected()){
+            jNitEmail.setText("Nit:");
+            jNitEmail.setVisible(true);
+            txtNitEmail.setVisible(true);
+            jNacimientoIdentificacion.setText("# Identificacíon tributaria:");
+            jNacimientoIdentificacion.setVisible(true);
+            txtNacimientoIdentificacion.setVisible(true);
+        }else{
+            jNitEmail.setText("Email:");
+            jNitEmail.setVisible(true);
+            txtNitEmail.setVisible(true);
+            jNacimientoIdentificacion.setText("Fecha de nacimiento:");
+            jNacimientoIdentificacion.setVisible(true);
+            txtNacimientoIdentificacion.setVisible(true);
         }
     }
     /**
@@ -464,6 +616,7 @@ public class registro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup botones;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
@@ -473,13 +626,19 @@ public class registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jNacimientoIdentificacion;
+    private javax.swing.JLabel jNitEmail;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton rbJuridica;
+    private javax.swing.JRadioButton rbNatural;
     private javax.swing.JTable tblClientes;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtNacimientoIdentificacion;
+    private javax.swing.JTextField txtNitEmail;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables

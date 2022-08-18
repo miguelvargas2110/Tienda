@@ -15,8 +15,7 @@ import java.sql.ResultSet;
  * @author migue
  */
 public class conexion {
-    
-    String strConexion = "jdbc:sqlite:C:/Users/migue/Documents/db/CRUD.s3db";
+    String strConexion = "jdbc:sqlite:CRUD.s3db";
     Connection conn = null;
     
     public conexion(){

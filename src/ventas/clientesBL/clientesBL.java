@@ -10,7 +10,32 @@ package ventas.clientesBL;
  */
 public class clientesBL {
 
-    String nombre, apellidos, id, direccion, telefono;
+    String nombre, apellidos, id, direccion, telefono, juridica_natural, nit_email, nacimiento_tributaria;
+
+    public String getJuridica_natural() {
+        return juridica_natural;
+    }
+
+    public void setJuridica_natural(String juridica_natural) {
+        this.juridica_natural = juridica_natural;
+    }
+
+    public String getNit_email() {
+        return nit_email;
+    }
+
+    public void setNit_email(String nit_email) {
+        this.nit_email = nit_email;
+    }
+
+    public String getNacimiento_tributaria() {
+        return nacimiento_tributaria;
+    }
+
+    public void setNacimiento_tributaria(String nacimiento_tributaria) {
+        this.nacimiento_tributaria = nacimiento_tributaria;
+    }
+
     
     public String getNombre() {
         return nombre;
