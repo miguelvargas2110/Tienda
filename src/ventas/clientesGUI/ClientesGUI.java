@@ -16,20 +16,20 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import ventas.clientesBL.clientesBL;
 
-public class registro extends javax.swing.JFrame {
+public class ClientesGUI extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
     /**
      * Creates new form registro
      */
-    public registro() {
+    public ClientesGUI() {
         initComponents();
         
         botones.add(rbJuridica);
         botones.add(rbNatural);
         
-        String[] titulos = {"Nombre", "Apellidos", "Identificacion", "Direccion", "Telefono", "Persona/Juridica",
-            "Nit/Email", "Nacimiento/Tributaria"};
+        String[] titulos = {"Nombre", "Apellidos", "Identificacion", "Direccion", "Telefono", "Natural / Juridica",
+            "NIT / Email", "Fecha Nacimiento"};
         
         modelo = new DefaultTableModel(null, titulos);
         tblClientes.setModel(modelo);
@@ -69,9 +69,9 @@ public class registro extends javax.swing.JFrame {
         rbJuridica = new javax.swing.JRadioButton();
         rbNatural = new javax.swing.JRadioButton();
         jNitEmail = new javax.swing.JLabel();
-        txtNitEmail = new javax.swing.JTextField();
         jNacimientoIdentificacion = new javax.swing.JLabel();
-        txtNacimientoIdentificacion = new javax.swing.JTextField();
+        txtNacimiento = new javax.swing.JTextField();
+        txtNitEmail = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -195,19 +195,19 @@ public class registro extends javax.swing.JFrame {
             }
         });
 
-        jNitEmail.setText("Email:");
+        jNitEmail.setText("NIT:");
+
+        jNacimientoIdentificacion.setText("Fecha de Nacimiento:");
+
+        txtNacimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNacimientoActionPerformed(evt);
+            }
+        });
 
         txtNitEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNitEmailActionPerformed(evt);
-            }
-        });
-
-        jNacimientoIdentificacion.setText("# Identificacíon tributaria: ");
-
-        txtNacimientoIdentificacion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNacimientoIdentificacionActionPerformed(evt);
             }
         });
 
@@ -239,21 +239,21 @@ public class registro extends javax.swing.JFrame {
                             .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jNacimientoIdentificacion)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNacimientoIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(rbJuridica, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jNitEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbJuridica)
+                            .addComponent(jNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(rbNatural))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(37, 37, 37)
-                                .addComponent(txtNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(106, 106, 106))
+                                .addGap(1, 1, 1)
+                                .addComponent(txtNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jNacimientoIdentificacion)
+                        .addGap(31, 31, 31)
+                        .addComponent(txtNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,13 +295,13 @@ public class registro extends javax.swing.JFrame {
                     .addComponent(rbJuridica))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jNitEmail))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jNitEmail)
+                    .addComponent(txtNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jNacimientoIdentificacion)
-                    .addComponent(txtNacimientoIdentificacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                    .addComponent(txtNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -357,9 +357,9 @@ public class registro extends javax.swing.JFrame {
             
             clientesBL oClientes = recuperarDatosGUI();
 
-            String strSentenciaInsert = String.format("INSERT INTO Clientes (Nombre, Apellidos, Identificacion, Direccion, Telefono, Juridica_Natural, Nit_Email, Nacimiento_Tributaria)"
+            String strSentenciaInsert = String.format("INSERT INTO Clientes (Nombre, Apellidos, Identificacion, Direccion, Telefono, Juridica_Natural, Nit_Email, Nacimiento)"
                     + " VALUES ('%s', '%s', '%s', '%s','%s', '%s','%s', '%s')", oClientes.getNombre(), oClientes.getApellidos(), oClientes.getId(), oClientes.getDireccion(), 
-                    oClientes.getTelefono(), oClientes.getJuridica_natural(), oClientes.getNit_email(), oClientes.getNacimiento_tributaria());        
+                    oClientes.getTelefono(), oClientes.getJuridica_natural(), oClientes.getNit_email(), oClientes.getNacimiento());        
 
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
 
@@ -387,12 +387,12 @@ public class registro extends javax.swing.JFrame {
                 rbNatural.setSelected(true);
                 juridicaNatural();
                 txtNitEmail.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
-                txtNacimientoIdentificacion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
+                txtNacimiento.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
             }else{
                 rbJuridica.setSelected(true);
                 juridicaNatural();
                 txtNitEmail.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
-                txtNacimientoIdentificacion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
+                txtNacimiento.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
             }
             
             
@@ -431,9 +431,9 @@ public class registro extends javax.swing.JFrame {
         
             String strSentenciaInsert = String.format("UPDATE Clientes SET Nombre = '%s', Apellidos = '%s',"
                 + "Identificacion= '%s', Direccion = '%s', Telefono = '%s', Juridica_Natural = '%s', Nit_Email = '%s',"
-                + "Nacimiento_Tributaria = '%s' WHERE Identificacion = %s", oClientes.getNombre(), oClientes.getApellidos(), 
+                + "Nacimiento = '%s' WHERE Identificacion = %s", oClientes.getNombre(), oClientes.getApellidos(), 
                 oClientes.getId(), oClientes.getDireccion(), oClientes.getTelefono(), oClientes.getJuridica_natural(),
-                oClientes.getNit_email(), oClientes.getNacimiento_tributaria(), oClientes.getId());        
+                oClientes.getNit_email(), oClientes.getNacimiento(), oClientes.getId());        
         
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
         
@@ -462,13 +462,13 @@ public class registro extends javax.swing.JFrame {
         
     }//GEN-LAST:event_rbNaturalActionPerformed
 
+    private void txtNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNacimientoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNacimientoActionPerformed
+
     private void txtNitEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNitEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNitEmailActionPerformed
-
-    private void txtNacimientoIdentificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNacimientoIdentificacionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNacimientoIdentificacionActionPerformed
 
     public void mostrarDatos(){
         
@@ -489,7 +489,7 @@ public class registro extends javax.swing.JFrame {
                 System.out.println( resultado.getString("Telefono"));
                 System.out.println( resultado.getString("Juridica_Natural"));
                 System.out.println(resultado.getString("Nit_Email"));
-                System.out.println(resultado.getString("Nacimiento_Tributaria"));
+                System.out.println(resultado.getString("Nacimiento"));
                 
                 if("Natural".equals(resultado.getString("Juridica_Natural"))){
                     rbNatural.setSelected(true);
@@ -500,7 +500,7 @@ public class registro extends javax.swing.JFrame {
                 }
                 
                 Object[] oCliente = {resultado.getString("Nombre"), resultado.getString("Apellidos"), resultado.getString("Identificacion"), 
-                resultado.getString("Direccion"), resultado.getString("Telefono"), resultado.getString("Juridica_Natural"), resultado.getString("Nit_Email"), resultado.getString("Nacimiento_Tributaria")};
+                resultado.getString("Direccion"), resultado.getString("Telefono"), resultado.getString("Juridica_Natural"), resultado.getString("Nit_Email"), resultado.getString("Nacimiento")};
                 
                 modelo.addRow(oCliente);
             }
@@ -524,7 +524,7 @@ public class registro extends javax.swing.JFrame {
             oClientes.setJuridica_natural("Juridica");
         }
         oClientes.setNit_email(txtNitEmail.getText());
-        oClientes.setNacimiento_tributaria(txtNacimientoIdentificacion.getText());
+        oClientes.setNacimiento(txtNacimiento.getText());
         
         return oClientes;
     }
@@ -537,7 +537,7 @@ public class registro extends javax.swing.JFrame {
         txtDireccion.setText("");
         txtTelefono.setText("");
         txtNitEmail.setText("");
-        txtNacimientoIdentificacion.setText("");
+        txtNacimiento.setText("");
         
         btnAgregar.setEnabled(true);
         btnEditar.setEnabled(false);
@@ -546,7 +546,7 @@ public class registro extends javax.swing.JFrame {
         jNitEmail.setVisible(false);
         jNacimientoIdentificacion.setVisible(false);
         txtNitEmail.setVisible(false);
-        txtNacimientoIdentificacion.setVisible(false);
+        txtNacimiento.setVisible(false);
         
         botones.clearSelection();
         
@@ -555,7 +555,7 @@ public class registro extends javax.swing.JFrame {
     public boolean espaciosVacios(){
         if(txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty() || txtID.getText().isEmpty()
                 || txtDireccion.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtNitEmail.getText().isEmpty() ||
-                txtNacimientoIdentificacion.getText().isEmpty() || (rbJuridica.isSelected() == false && rbNatural.isSelected() == false)){
+                (txtNacimiento.getText().isEmpty() && rbNatural.isSelected()) || (rbJuridica.isSelected() == false && rbNatural.isSelected() == false)){
             JOptionPane.showMessageDialog(this, "Por Favor rellenar todos los campos");
             return true;
         }else{
@@ -565,19 +565,18 @@ public class registro extends javax.swing.JFrame {
     
     public void juridicaNatural(){
         if(rbJuridica.isSelected()){
-            jNitEmail.setText("Nit:");
+            jNitEmail.setText("NIT:");
             jNitEmail.setVisible(true);
             txtNitEmail.setVisible(true);
-            jNacimientoIdentificacion.setText("# Identificacíon tributaria:");
-            jNacimientoIdentificacion.setVisible(true);
-            txtNacimientoIdentificacion.setVisible(true);
-        }else{
+            jNacimientoIdentificacion.setVisible(false);
+            txtNacimiento.setVisible(false);
+        }else if(rbNatural.isSelected()){
             jNitEmail.setText("Email:");
             jNitEmail.setVisible(true);
             txtNitEmail.setVisible(true);
             jNacimientoIdentificacion.setText("Fecha de nacimiento:");
             jNacimientoIdentificacion.setVisible(true);
-            txtNacimientoIdentificacion.setVisible(true);
+            txtNacimiento.setVisible(true);
         }
     }
     /**
@@ -597,20 +596,21 @@ public class registro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ClientesGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new registro().setVisible(true);
+                new ClientesGUI().setVisible(true);
             }
         });
     }
@@ -637,7 +637,7 @@ public class registro extends javax.swing.JFrame {
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtID;
-    private javax.swing.JTextField txtNacimientoIdentificacion;
+    private javax.swing.JTextField txtNacimiento;
     private javax.swing.JTextField txtNitEmail;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;

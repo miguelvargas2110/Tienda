@@ -10,7 +10,7 @@ package ventas.clientesBL;
  */
 public class clientesBL {
 
-    String nombre, apellidos, id, direccion, telefono, juridica_natural, nit_email, nacimiento_tributaria;
+    String nombre, apellidos, id, direccion, telefono, juridica_natural, nit_email, nacimiento;
 
     public String getJuridica_natural() {
         return juridica_natural;
@@ -28,12 +28,12 @@ public class clientesBL {
         this.nit_email = nit_email;
     }
 
-    public String getNacimiento_tributaria() {
-        return nacimiento_tributaria;
+    public String getNacimiento() {
+        return nacimiento;
     }
 
-    public void setNacimiento_tributaria(String nacimiento_tributaria) {
-        this.nacimiento_tributaria = nacimiento_tributaria;
+    public void setNacimiento(String nacimiento) {
+        this.nacimiento = nacimiento;
     }
 
     
