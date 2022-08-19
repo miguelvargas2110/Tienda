@@ -2,19 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ventas.clientesGUI;
+package ventas.gui;
 
 /**
  *
  * @author migue
  */
 
-import ventas.clientesDAL.conexion;
+import ventas.dal.conexion;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import ventas.clientesBL.clientesBL;
+import ventas.bl.clientesBL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ClientesGUI extends javax.swing.JFrame {
 
@@ -28,8 +33,8 @@ public class ClientesGUI extends javax.swing.JFrame {
         botones.add(rbJuridica);
         botones.add(rbNatural);
         
-        String[] titulos = {"Nombre", "Apellidos", "Identificacion", "Direccion", "Telefono", "Natural / Juridica",
-            "NIT / Email", "Fecha Nacimiento"};
+        String[] titulos = {"Identificacion", "Nombre", "Apellidos", "Direccion", "Telefono", "Natural o Juridica",
+            "NIT o Email", "Fecha Nacimiento"};
         
         modelo = new DefaultTableModel(null, titulos);
         tblClientes.setModel(modelo);
@@ -56,9 +61,9 @@ public class ClientesGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         txtApellidos = new javax.swing.JTextField();
-        txtID = new javax.swing.JTextField();
         txtDireccion = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -70,8 +75,8 @@ public class ClientesGUI extends javax.swing.JFrame {
         rbNatural = new javax.swing.JRadioButton();
         jNitEmail = new javax.swing.JLabel();
         jNacimientoIdentificacion = new javax.swing.JLabel();
-        txtNacimiento = new javax.swing.JTextField();
         txtNitEmail = new javax.swing.JTextField();
+        txtNacimiento = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -113,13 +118,19 @@ public class ClientesGUI extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Cliente"));
 
-        jLabel1.setText("Nombre:");
+        jLabel1.setText("Identificacion:");
 
-        jLabel2.setText("Apellidos:");
+        jLabel2.setText("Nombre:");
 
-        jLabel3.setText("Identificación:");
+        jLabel3.setText("Apellidos:");
 
         jLabel4.setText("Dirección:");
+
+        txtID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIDActionPerformed(evt);
+            }
+        });
 
         txtNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,12 +141,6 @@ public class ClientesGUI extends javax.swing.JFrame {
         txtApellidos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtApellidosActionPerformed(evt);
-            }
-        });
-
-        txtID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIDActionPerformed(evt);
             }
         });
 
@@ -199,12 +204,6 @@ public class ClientesGUI extends javax.swing.JFrame {
 
         jNacimientoIdentificacion.setText("Fecha de Nacimiento:");
 
-        txtNacimiento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNacimientoActionPerformed(evt);
-            }
-        });
-
         txtNitEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNitEmailActionPerformed(evt);
@@ -229,9 +228,9 @@ public class ClientesGUI extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(21, 21, 21)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,11 +247,10 @@ public class ClientesGUI extends javax.swing.JFrame {
                                 .addComponent(rbNatural))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
-                                .addComponent(txtNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jNacimientoIdentificacion)
-                        .addGap(31, 31, 31)
-                        .addComponent(txtNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNitEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
+                    .addComponent(jNacimientoIdentificacion))
                 .addContainerGap(106, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -263,15 +261,15 @@ public class ClientesGUI extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
@@ -298,7 +296,7 @@ public class ClientesGUI extends javax.swing.JFrame {
                     .addComponent(jNitEmail)
                     .addComponent(txtNitEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jNacimientoIdentificacion)
                     .addComponent(txtNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -328,6 +326,10 @@ public class ClientesGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIDActionPerformed
+
     private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNombreActionPerformed
@@ -335,10 +337,6 @@ public class ClientesGUI extends javax.swing.JFrame {
     private void txtApellidosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtApellidosActionPerformed
-
-    private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtIDActionPerformed
 
     private void txtDireccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDireccionActionPerformed
         // TODO add your handling code here:
@@ -357,8 +355,8 @@ public class ClientesGUI extends javax.swing.JFrame {
             
             clientesBL oClientes = recuperarDatosGUI();
 
-            String strSentenciaInsert = String.format("INSERT INTO Clientes (Nombre, Apellidos, Identificacion, Direccion, Telefono, Juridica_Natural, Nit_Email, Nacimiento)"
-                    + " VALUES ('%s', '%s', '%s', '%s','%s', '%s','%s', '%s')", oClientes.getNombre(), oClientes.getApellidos(), oClientes.getId(), oClientes.getDireccion(), 
+            String strSentenciaInsert = String.format("INSERT INTO Clientes (Identificacion, Nombre, Apellidos, Direccion, Telefono, Juridica_Natural, Nit_Email, Nacimiento)"
+                    + " VALUES ('%s', '%s', '%s', '%s','%s', '%s','%s', '%s')", oClientes.getId(), oClientes.getNombre(), oClientes.getApellidos(), oClientes.getDireccion(), 
                     oClientes.getTelefono(), oClientes.getJuridica_natural(), oClientes.getNit_email(), oClientes.getNacimiento());        
 
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
@@ -378,24 +376,32 @@ public class ClientesGUI extends javax.swing.JFrame {
             
             JTable receptor = (JTable)evt.getSource();
             
-            txtNombre.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
-            txtApellidos.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
-            txtID.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
-            txtDireccion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 3).toString());
-            txtTelefono.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 4).toString());
-            if("Natural".equals(receptor.getModel().getValueAt(receptor.getSelectedRow(), 5).toString())){
-                rbNatural.setSelected(true);
-                juridicaNatural();
-                txtNitEmail.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
-                txtNacimiento.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
-            }else{
-                rbJuridica.setSelected(true);
-                juridicaNatural();
-                txtNitEmail.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
-                txtNacimiento.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            try {
+      
+                txtID.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
+                txtNombre.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
+                txtApellidos.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
+                txtDireccion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 3).toString());
+                txtTelefono.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 4).toString());
+                if("Natural".equals(receptor.getModel().getValueAt(receptor.getSelectedRow(), 5).toString())){
+                    rbNatural.setSelected(true);
+                    juridicaNatural();
+                    txtNitEmail.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
+                    Date fecha = formatoFecha.parse(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
+                    txtNacimiento.setDate(fecha);
+                }else{
+                    rbJuridica.setSelected(true);
+                    juridicaNatural();
+                    txtNitEmail.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
+                    txtNacimiento.setCalendar(null);
+                }
+                txtID.setEnabled(false);
+                
+            } catch (ParseException ex) {
+                Logger.getLogger(ClientesGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
+
         }
         
         btnAgregar.setEnabled(false);
@@ -429,10 +435,10 @@ public class ClientesGUI extends javax.swing.JFrame {
         }else{
             clientesBL oClientes = recuperarDatosGUI();
         
-            String strSentenciaInsert = String.format("UPDATE Clientes SET Nombre = '%s', Apellidos = '%s',"
-                + "Identificacion= '%s', Direccion = '%s', Telefono = '%s', Juridica_Natural = '%s', Nit_Email = '%s',"
-                + "Nacimiento = '%s' WHERE Identificacion = %s", oClientes.getNombre(), oClientes.getApellidos(), 
-                oClientes.getId(), oClientes.getDireccion(), oClientes.getTelefono(), oClientes.getJuridica_natural(),
+            String strSentenciaInsert = String.format("UPDATE Clientes SET Identificacion= '%s', Nombre = '%s', Apellidos = '%s',"
+                + "Direccion = '%s', Telefono = '%s', Juridica_Natural = '%s', Nit_Email = '%s',"
+                + "Nacimiento = '%s' WHERE Identificacion = %s", oClientes.getId(), oClientes.getNombre(),
+                oClientes.getApellidos(), oClientes.getDireccion(), oClientes.getTelefono(), oClientes.getJuridica_natural(),
                 oClientes.getNit_email(), oClientes.getNacimiento(), oClientes.getId());        
         
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
@@ -462,10 +468,6 @@ public class ClientesGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_rbNaturalActionPerformed
 
-    private void txtNacimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNacimientoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNacimientoActionPerformed
-
     private void txtNitEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNitEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNitEmailActionPerformed
@@ -482,9 +484,9 @@ public class ClientesGUI extends javax.swing.JFrame {
             ResultSet resultado = objConexion.consultarRegistros("Select * FROM Clientes");
             
             while(resultado.next()){
+                System.out.println( resultado.getString("Identificacion"));
                 System.out.println( resultado.getString("Nombre"));
                 System.out.println( resultado.getString("Apellidos"));
-                System.out.println( resultado.getString("Identificacion"));
                 System.out.println( resultado.getString("Direccion"));
                 System.out.println( resultado.getString("Telefono"));
                 System.out.println( resultado.getString("Juridica_Natural"));
@@ -499,7 +501,7 @@ public class ClientesGUI extends javax.swing.JFrame {
                     juridicaNatural();
                 }
                 
-                Object[] oCliente = {resultado.getString("Nombre"), resultado.getString("Apellidos"), resultado.getString("Identificacion"), 
+                Object[] oCliente = {resultado.getString("Identificacion"), resultado.getString("Nombre"), resultado.getString("Apellidos"),  
                 resultado.getString("Direccion"), resultado.getString("Telefono"), resultado.getString("Juridica_Natural"), resultado.getString("Nit_Email"), resultado.getString("Nacimiento")};
                 
                 modelo.addRow(oCliente);
@@ -512,32 +514,36 @@ public class ClientesGUI extends javax.swing.JFrame {
     
     public clientesBL recuperarDatosGUI(){
         clientesBL oClientes = new clientesBL();
-        
+
+        oClientes.setId(txtID.getText());
         oClientes.setNombre(txtNombre.getText());
         oClientes.setApellidos(txtApellidos.getText());
-        oClientes.setId(txtID.getText());
         oClientes.setDireccion(txtDireccion.getText());
         oClientes.setTelefono(txtTelefono.getText());
         if(rbNatural.isSelected()){
             oClientes.setJuridica_natural("Natural");
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            String fecha = formatoFecha.format(txtNacimiento.getDate());
+            oClientes.setNacimiento(fecha);
         }else{
             oClientes.setJuridica_natural("Juridica");
+            oClientes.setNacimiento("");
         }
         oClientes.setNit_email(txtNitEmail.getText());
-        oClientes.setNacimiento(txtNacimiento.getText());
-        
+
         return oClientes;
     }
     
     public void limpiar(){
         
+        txtID.setText("");
         txtNombre.setText("");
         txtApellidos.setText("");
-        txtID.setText("");
         txtDireccion.setText("");
         txtTelefono.setText("");
         txtNitEmail.setText("");
-        txtNacimiento.setText("");
+        txtNacimiento.setCalendar(null);
+        txtID.setEnabled(true);
         
         btnAgregar.setEnabled(true);
         btnEditar.setEnabled(false);
@@ -553,9 +559,12 @@ public class ClientesGUI extends javax.swing.JFrame {
     }
     
     public boolean espaciosVacios(){
-        if(txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty() || txtID.getText().isEmpty()
+        if (txtID.getText().matches("[+-]?\\d*(\\.\\d+)?") == false){
+            JOptionPane.showMessageDialog(this, "La identificacion solo admite numeros");
+            return true;
+        }else if(txtID.getText().isEmpty() || txtNombre.getText().isEmpty() || txtApellidos.getText().isEmpty()
                 || txtDireccion.getText().isEmpty() || txtTelefono.getText().isEmpty() || txtNitEmail.getText().isEmpty() ||
-                (txtNacimiento.getText().isEmpty() && rbNatural.isSelected()) || (rbJuridica.isSelected() == false && rbNatural.isSelected() == false)){
+                (txtNacimiento.getDate() == null && rbNatural.isSelected()) || (rbJuridica.isSelected() == false && rbNatural.isSelected() == false)){
             JOptionPane.showMessageDialog(this, "Por Favor rellenar todos los campos");
             return true;
         }else{
@@ -617,10 +626,10 @@ public class ClientesGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup botones;
-    private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnEliminar;
+    public javax.swing.JButton btnAgregar;
+    public javax.swing.JButton btnCancelar;
+    public javax.swing.JButton btnEditar;
+    public javax.swing.JButton btnEliminar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -631,15 +640,15 @@ public class ClientesGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JRadioButton rbJuridica;
-    private javax.swing.JRadioButton rbNatural;
+    public javax.swing.JRadioButton rbJuridica;
+    public javax.swing.JRadioButton rbNatural;
     private javax.swing.JTable tblClientes;
-    private javax.swing.JTextField txtApellidos;
-    private javax.swing.JTextField txtDireccion;
-    private javax.swing.JTextField txtID;
-    private javax.swing.JTextField txtNacimiento;
-    private javax.swing.JTextField txtNitEmail;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtTelefono;
+    public javax.swing.JTextField txtApellidos;
+    public javax.swing.JTextField txtDireccion;
+    public javax.swing.JTextField txtID;
+    public com.toedter.calendar.JDateChooser txtNacimiento;
+    public javax.swing.JTextField txtNitEmail;
+    public javax.swing.JTextField txtNombre;
+    public javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
 }

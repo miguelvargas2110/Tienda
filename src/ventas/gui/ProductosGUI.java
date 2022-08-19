@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ventas.clientesGUI;
+package ventas.gui;
 
 import java.sql.ResultSet;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import ventas.clientesBL.productosBL;
-import ventas.clientesDAL.conexion;
+import ventas.bl.productosBL;
+import ventas.dal.conexion;
 
 /**
  *
