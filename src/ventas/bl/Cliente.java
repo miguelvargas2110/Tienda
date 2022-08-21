@@ -8,7 +8,7 @@ package ventas.bl;
  *
  * @author migue
  */
-public class clientesBL {
+public class Cliente {
 
     String nombre, apellidos, id, direccion, telefono, juridica_natural, nit_email, nacimiento;
 

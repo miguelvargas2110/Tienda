@@ -9,7 +9,7 @@ package ventas.bl;
  *
  * @author migue
  */
-public class productosBL {
+public class Producto {
     
     String codigo, nombre, descripcion, valorUnitario, cantidadExistencia, tipoProductos, peso_temperatura, pais_codigo, fechaEnvasado_caducidad;
 

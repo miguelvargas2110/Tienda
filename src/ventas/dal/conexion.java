@@ -52,4 +52,19 @@ public class conexion {
             
         }
     }
+    
+    public ResultSet listar(String strSentenciaSQL, int col, String parameter){
+        try {
+            PreparedStatement pstm = conn.prepareStatement(strSentenciaSQL);
+            pstm.setString(col, parameter);
+            ResultSet respuesta = pstm.executeQuery();
+            return respuesta;
+            
+        } catch (Exception e) {
+            
+            System.out.println(e);
+            return null;
+            
+        }
+    }
 }
