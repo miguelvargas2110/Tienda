@@ -5,6 +5,12 @@
 package ventas.gui;
 
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import ventas.bl.productosBL;
@@ -26,7 +32,8 @@ public class ProductosGUI extends javax.swing.JFrame {
         botones.add(rbPerecederos);
         botones.add(rbRefrigerados);
         
-        String[] titulos = {"Codigo", "Nombre", "Descripcion", "ValorUnitario", "CantidadExistente", "TipoProducto"};
+        String[] titulos = {"Codigo", "Nombre", "Descripcion", "Valor Unitario", "Cantidad Existente", "Tipo Producto",
+            "Fecha de Envasado / Vencimiento", "Peso / temperatura", "Pais / Codigo"};
         
         modelo = new DefaultTableModel(null, titulos);
         tblProductos.setModel(modelo);
@@ -65,6 +72,12 @@ public class ProductosGUI extends javax.swing.JFrame {
         rbPerecederos = new javax.swing.JRadioButton();
         rbEnvasados = new javax.swing.JRadioButton();
         rbRefrigerados = new javax.swing.JRadioButton();
+        jFecha = new javax.swing.JLabel();
+        jPesoTemperatura = new javax.swing.JLabel();
+        txtPaisCodigo = new javax.swing.JTextField();
+        txtPesoTemperatura = new javax.swing.JTextField();
+        txtFecha = new com.toedter.calendar.JDateChooser();
+        jPaisCodigo = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProductos = new javax.swing.JTable();
@@ -117,6 +130,11 @@ public class ProductosGUI extends javax.swing.JFrame {
         });
 
         rbPerecederos.setText("Producto Perecedero");
+        rbPerecederos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbPerecederosActionPerformed(evt);
+            }
+        });
 
         rbEnvasados.setText("Producto Envasados");
         rbEnvasados.addActionListener(new java.awt.event.ActionListener() {
@@ -132,6 +150,18 @@ public class ProductosGUI extends javax.swing.JFrame {
             }
         });
 
+        jFecha.setText("Fecha de Caducidad:");
+
+        jPesoTemperatura.setText("Temperatura Adecuada:");
+
+        txtPaisCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPaisCodigoActionPerformed(evt);
+            }
+        });
+
+        jPaisCodigo.setText("Codigo de Aprobacion:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -145,36 +175,46 @@ public class ProductosGUI extends javax.swing.JFrame {
                         .addComponent(rbEnvasados, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(rbRefrigerados, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(98, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
+                                .addComponent(txtCantidadExistente, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
                                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(129, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtCantidadExistente, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jPesoTemperatura, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPaisCodigo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFecha, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(112, 112, 112)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtPesoTemperatura, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPaisCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -208,15 +248,27 @@ public class ProductosGUI extends javax.swing.JFrame {
                         .addComponent(btnCancelar))
                     .addComponent(txtValorUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(txtCantidadExistente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbPerecederos)
                     .addComponent(rbRefrigerados)
                     .addComponent(rbEnvasados))
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPesoTemperatura, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPesoTemperatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPaisCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPaisCodigo))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla Productos"));
@@ -245,7 +297,7 @@ public class ProductosGUI extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -262,11 +314,9 @@ public class ProductosGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 816, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -285,45 +335,55 @@ public class ProductosGUI extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
         conexion objConexion = new conexion();
-        
-        productosBL oProductos = recuperarDatosGUI();
 
-            String strSentenciaInsert = String.format("INSERT INTO Productos (Codigo, Nombre, Descripcion, ValorUnitario, CantidadExistente, TipoProducto)"
-                    + " VALUES ('%s', '%s', '%s', '%s','%s', '%s')", oProductos.getCodigo(), oProductos.getNombre(), oProductos.getDescripcion(), oProductos.getValorUnitario(),
-                    oProductos.getCantidadExistencia(), oProductos.getTipoProductos());        
+        if (espaciosVacios() == true) {
+        } else {
+            productosBL oProductos = recuperarDatosGUI();
+
+            String strSentenciaInsert = String.format("INSERT INTO Productos (Codigo, Nombre, Descripcion, ValorUnitario, CantidadExistente, "
+                    + "TipoProducto, FechaEnvasado_Vencimiento, Peso_temperatura, Pais_Codigo)"
+                    + " VALUES ('%s', '%s', '%s', '%s','%s', '%s', '%s', '%s', '%s')", oProductos.getCodigo(), oProductos.getNombre(), oProductos.getDescripcion(), 
+                    oProductos.getValorUnitario(), oProductos.getCantidadExistencia(), oProductos.getTipoProductos(), oProductos.getFechaEnvasado_caducidad(), 
+                    oProductos.getPeso_temperatura(), oProductos.getPais_codigo());
 
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
 
             this.mostrarDatos();
-            
+
             this.limpiar();
+        }
         
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         conexion objConexion = new conexion();
-        
+
+        if (espaciosVacios()) {
+        } else {
             productosBL oProductos = recuperarDatosGUI();
-        
+
             String strSentenciaInsert = String.format("UPDATE Productos SET Codigo = '%s', Nombre = '%s',"
-                + "Descripcion= '%s', ValorUnitario = '%s', CantidadExistente = '%s', TipoProducto = '%s' "
+                    + "Descripcion= '%s', ValorUnitario = '%s', CantidadExistente = '%s', TipoProducto = '%s', "
+                    + "FechaEnvasado_Vencimiento = '%s', Peso_temperatura = '%s',  Pais_Codigo = '%s'"
                     + "WHERE Codigo = %s", oProductos.getCodigo(), oProductos.getNombre(), oProductos.getDescripcion(), oProductos.getValorUnitario(),
-                    oProductos.getCantidadExistencia(), oProductos.getTipoProductos(), oProductos.getCodigo());        
-        
+                    oProductos.getCantidadExistencia(), oProductos.getTipoProductos(), oProductos.getFechaEnvasado_caducidad(), 
+                    oProductos.getPeso_temperatura(), oProductos.getPais_codigo(), oProductos.getCodigo());
+
             objConexion.ejecutarSentenciaSQL(strSentenciaInsert);
-        
+
             limpiar();
-        
+
             this.mostrarDatos();
+        }
         
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void rbEnvasadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEnvasadosActionPerformed
-        // TODO add your handling code here:
+        tipoProducto();
     }//GEN-LAST:event_rbEnvasadosActionPerformed
 
     private void rbRefrigeradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbRefrigeradosActionPerformed
-        // TODO add your handling code here:
+        tipoProducto();
     }//GEN-LAST:event_rbRefrigeradosActionPerformed
 
     private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
@@ -332,20 +392,39 @@ public class ProductosGUI extends javax.swing.JFrame {
             
             JTable receptor = (JTable)evt.getSource();
             
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            try {
+      
             txtCodigo.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 0).toString());
             txtNombre.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 1).toString());
             txtDescripcion.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 2).toString());
             txtValorUnitario.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 3).toString());
             txtCantidadExistente.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 4).toString());
-            if("Envasado".equals(receptor.getModel().getValueAt(receptor.getSelectedRow(), 5).toString())){
+            if ("Envasado".equals(receptor.getModel().getValueAt(receptor.getSelectedRow(), 5).toString())) {
                 rbEnvasados.setSelected(true);
-            }else if("Perecedero".equals(receptor.getModel().getValueAt(receptor.getSelectedRow(), 5).toString())){
+                tipoProducto();
+                Date fecha = formatoFecha.parse(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
+                txtFecha.setDate(fecha);
+                txtPesoTemperatura.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
+                txtPaisCodigo.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 8).toString());
+            } else if ("Perecedero".equals(receptor.getModel().getValueAt(receptor.getSelectedRow(), 5).toString())) {
                 rbPerecederos.setSelected(true);
-            }else{
+                tipoProducto();
+                Date fecha = formatoFecha.parse(receptor.getModel().getValueAt(receptor.getSelectedRow(), 6).toString());
+                txtFecha.setDate(fecha);
+            } else {
                 rbRefrigerados.setSelected(true);
+                tipoProducto();
+                txtPesoTemperatura.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 7).toString());
+                txtPaisCodigo.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 8).toString());
+                txtFecha.setCalendar(null);
             }
-            
-            
+            txtCodigo.setEnabled(false);
+                
+            } catch (ParseException ex) {
+                Logger.getLogger(ClientesGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         
         btnAgregar.setEnabled(false);
@@ -373,62 +452,85 @@ public class ProductosGUI extends javax.swing.JFrame {
 
         this.mostrarDatos();
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void txtPaisCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPaisCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPaisCodigoActionPerformed
+
+    private void rbPerecederosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPerecederosActionPerformed
+        tipoProducto();
+    }//GEN-LAST:event_rbPerecederosActionPerformed
     
     public void mostrarDatos(){
         
-        while(modelo.getRowCount()>0){
+        while (modelo.getRowCount() > 0) {
             modelo.removeRow(0);
         }
-        
+
         conexion objConexion = new conexion();
-        
+
         try {
             ResultSet resultado = objConexion.consultarRegistros("Select * FROM Productos");
-            
-            while(resultado.next()){
-                System.out.println( resultado.getString("Codigo"));
-                System.out.println( resultado.getString("Nombre"));
-                System.out.println( resultado.getString("Descripcion"));
-                System.out.println( resultado.getString("ValorUnitario"));
-                System.out.println( resultado.getString("CantidadExistente"));
-                System.out.println( resultado.getString("TipoProducto"));
 
-                
-                if("Envasado".equals(resultado.getString("TipoProducto"))){
+            while (resultado.next()) {
+                System.out.println(resultado.getString("Codigo"));
+                System.out.println(resultado.getString("Nombre"));
+                System.out.println(resultado.getString("Descripcion"));
+                System.out.println(resultado.getString("ValorUnitario"));
+                System.out.println(resultado.getString("CantidadExistente"));
+                System.out.println(resultado.getString("TipoProducto"));
+                System.out.println(resultado.getString("FechaEnvasado_Vencimiento"));
+                System.out.println(resultado.getString("Peso_Temperatura"));
+                System.out.println(resultado.getString("Pais_Codigo"));
+
+                if ("Envasado".equals(resultado.getString("TipoProducto"))) {
                     rbEnvasados.setSelected(true);
-                }else if("Refrigerado".equals(resultado.getString("TipoProducto"))){
+                    tipoProducto();
+                } else if ("Refrigerado".equals(resultado.getString("TipoProducto"))) {
                     rbRefrigerados.setSelected(true);
-                }else{
+                    tipoProducto();
+                } else {
                     rbPerecederos.setSelected(true);
+                    tipoProducto();
                 }
-                
+
                 Object[] oProducto = {resultado.getString("Codigo"), resultado.getString("Nombre"), resultado.getString("Descripcion"),
-                resultado.getString("ValorUnitario"), resultado.getString("CantidadExistente"), resultado.getString("TipoProducto")};
-                
+                    resultado.getString("ValorUnitario"), resultado.getString("CantidadExistente"), resultado.getString("TipoProducto"),
+                    resultado.getString("FechaEnvasado_Vencimiento"), resultado.getString("Peso_temperatura"), resultado.getString("Pais_Codigo")};
+
                 modelo.addRow(oProducto);
             }
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+
     }
     
     public productosBL recuperarDatosGUI(){
         productosBL oProductos = new productosBL();
-        
+
         oProductos.setCodigo(txtCodigo.getText());
         oProductos.setNombre(txtNombre.getText());
         oProductos.setDescripcion(txtDescripcion.getText());
         oProductos.setValorUnitario(txtValorUnitario.getText());
         oProductos.setCantidadExistencia(txtCantidadExistente.getText());
-        if(rbEnvasados.isSelected()){
+        if (rbEnvasados.isSelected()) {
             oProductos.setTipoProductos("Envasado");
-        }else if(rbPerecederos.isSelected()){
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            String fecha = formatoFecha.format(txtFecha.getDate());
+            oProductos.setFechaEnvasado_caducidad(fecha);
+        } else if (rbPerecederos.isSelected()) {
             oProductos.setTipoProductos("Perecedero");
-        }else{
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+            String fecha = formatoFecha.format(txtFecha.getDate());
+            oProductos.setFechaEnvasado_caducidad(fecha);
+        } else {
             oProductos.setTipoProductos("Refrigerado");
+            oProductos.setFechaEnvasado_caducidad("");
         }
-        
+        oProductos.setPeso_temperatura(txtPesoTemperatura.getText());
+        oProductos.setPais_codigo(txtPaisCodigo.getText());
+
         return oProductos;
     }
     
@@ -440,15 +542,73 @@ public class ProductosGUI extends javax.swing.JFrame {
         txtDescripcion.setText("");
         txtValorUnitario.setText("");
         txtCantidadExistente.setText("");
+        txtFecha.setCalendar(null);
+        txtPesoTemperatura.setText("");
+        txtPaisCodigo.setText("");
+        txtCodigo.setEnabled(true);
+        
         
         btnAgregar.setEnabled(true);
         btnEditar.setEnabled(false);
         btnEliminar.setEnabled(false);
-        
+
+        jFecha.setVisible(false);
+        txtFecha.setVisible(false);
+        jPesoTemperatura.setVisible(false);
+        txtPesoTemperatura.setVisible(false);
+        jPaisCodigo.setVisible(false);
+        txtPaisCodigo.setVisible(false);
+
         botones.clearSelection();
-        
     }
     
+    public boolean espaciosVacios(){
+        if (txtCodigo.getText().matches("[+-]?\\d*(\\.\\d+)?") == false){
+            JOptionPane.showMessageDialog(this, "La identificacion solo admite numeros");
+            return true;
+        }else if (txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty()
+                || txtValorUnitario.getText().isEmpty() || txtCantidadExistente.getText().isEmpty() || jFecha.getText().isEmpty() && rbPerecederos.isSelected()
+                || (jFecha.getText().isEmpty() && jPesoTemperatura.getText().isEmpty() && jPaisCodigo.getText().isEmpty() && rbEnvasados.isSelected())
+                || (jPesoTemperatura.getText().isEmpty() && jPaisCodigo.getText().isEmpty() && rbRefrigerados.isSelected())
+                || (rbPerecederos.isSelected() == false && rbEnvasados.isSelected() == false && rbRefrigerados.isSelected() == false)) {
+            JOptionPane.showMessageDialog(this, "Por Favor rellenar todos los campos");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void tipoProducto() {
+        if (rbPerecederos.isSelected()) {
+            jFecha.setText("Fecha de vencimiento:");
+            jFecha.setVisible(true);
+            txtFecha.setVisible(true);
+            jPesoTemperatura.setVisible(false);
+            txtPesoTemperatura.setVisible(false);
+            jPaisCodigo.setVisible(false);
+            txtPaisCodigo.setVisible(false);
+        } else if (rbEnvasados.isSelected()) {
+            jFecha.setText("Fecha de Envasado:");
+            jFecha.setVisible(true);
+            txtFecha.setVisible(true);
+            jPesoTemperatura.setText("Peso del Envase:");
+            jPesoTemperatura.setVisible(true);
+            txtPesoTemperatura.setVisible(true);
+            jPaisCodigo.setText("Pais Origen:");
+            jPaisCodigo.setVisible(true);
+            txtPaisCodigo.setVisible(true);
+        } else if (rbRefrigerados.isSelected()) {
+            jFecha.setVisible(false);
+            txtFecha.setVisible(false);
+            jPesoTemperatura.setText("Temperatura Adecuada:");
+            jPesoTemperatura.setVisible(true);
+            txtPesoTemperatura.setVisible(true);
+            jPaisCodigo.setText("Codigo de Aprobacion:");
+            jPaisCodigo.setVisible(true);
+            txtPaisCodigo.setVisible(true);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -491,13 +651,16 @@ public class ProductosGUI extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JLabel jFecha;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jPaisCodigo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel jPesoTemperatura;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JRadioButton rbEnvasados;
@@ -507,7 +670,10 @@ public class ProductosGUI extends javax.swing.JFrame {
     private javax.swing.JTextField txtCantidadExistente;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextArea txtDescripcion;
+    private com.toedter.calendar.JDateChooser txtFecha;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPaisCodigo;
+    private javax.swing.JTextField txtPesoTemperatura;
     private javax.swing.JTextField txtValorUnitario;
     // End of variables declaration//GEN-END:variables
 }

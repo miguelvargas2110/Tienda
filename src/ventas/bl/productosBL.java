@@ -4,13 +4,39 @@
  */
 package ventas.bl;
 
+
 /**
  *
  * @author migue
  */
 public class productosBL {
     
-    String codigo, nombre, descripcion, valorUnitario, cantidadExistencia, tipoProductos;
+    String codigo, nombre, descripcion, valorUnitario, cantidadExistencia, tipoProductos, peso_temperatura, pais_codigo, fechaEnvasado_caducidad;
+
+    public String getFechaEnvasado_caducidad() {
+        return fechaEnvasado_caducidad;
+    }
+
+    public void setFechaEnvasado_caducidad(String fechaEnvasado_caducidad) {
+        this.fechaEnvasado_caducidad = fechaEnvasado_caducidad;
+    }
+
+    
+    public String getPeso_temperatura() {
+        return peso_temperatura;
+    }
+
+    public void setPeso_temperatura(String peso_temperatura) {
+        this.peso_temperatura = peso_temperatura;
+    }
+
+    public String getPais_codigo() {
+        return pais_codigo;
+    }
+
+    public void setPais_codigo(String pais_codigo) {
+        this.pais_codigo = pais_codigo;
+    }
 
     public String getTipoProductos() {
         return tipoProductos;
