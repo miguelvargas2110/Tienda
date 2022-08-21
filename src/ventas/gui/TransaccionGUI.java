@@ -303,6 +303,7 @@ public class TransaccionGUI extends javax.swing.JFrame {
                 if(r==0){
                     ClientesGUI cg = new ClientesGUI();
                     cg.setVisible(true);
+                    
                 }
             }
         }
