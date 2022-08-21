@@ -14,12 +14,13 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import ventas.bl.clientesBL;
+import ventas.bl.Cliente;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.PreparedStatement;
 
 public class ClientesGUI extends javax.swing.JFrame {
 
@@ -353,7 +354,7 @@ public class ClientesGUI extends javax.swing.JFrame {
         if(espaciosVacios() == true){
         }else{
             
-            clientesBL oClientes = recuperarDatosGUI();
+            Cliente oClientes = recuperarDatosGUI();
 
             String strSentenciaInsert = String.format("INSERT INTO Clientes (Identificacion, Nombre, Apellidos, Direccion, Telefono, Juridica_Natural, Nit_Email, Nacimiento)"
                     + " VALUES ('%s', '%s', '%s', '%s','%s', '%s','%s', '%s')", oClientes.getId(), oClientes.getNombre(), oClientes.getApellidos(), oClientes.getDireccion(), 
@@ -415,7 +416,7 @@ public class ClientesGUI extends javax.swing.JFrame {
         
         conexion objConexion = new conexion();
 
-        clientesBL oClientes = recuperarDatosGUI();
+        Cliente oClientes = recuperarDatosGUI();
 
         String strSentenciaInsert = String.format("DELETE FROM Clientes WHERE Identificacion= %s",oClientes.getId());        
 
@@ -433,7 +434,7 @@ public class ClientesGUI extends javax.swing.JFrame {
         
         if(espaciosVacios()){  
         }else{
-            clientesBL oClientes = recuperarDatosGUI();
+            Cliente oClientes = recuperarDatosGUI();
         
             String strSentenciaInsert = String.format("UPDATE Clientes SET Identificacion= '%s', Nombre = '%s', Apellidos = '%s',"
                 + "Direccion = '%s', Telefono = '%s', Juridica_Natural = '%s', Nit_Email = '%s',"
@@ -512,8 +513,8 @@ public class ClientesGUI extends javax.swing.JFrame {
         
     }
     
-    public clientesBL recuperarDatosGUI(){
-        clientesBL oClientes = new clientesBL();
+    public Cliente recuperarDatosGUI(){
+        Cliente oClientes = new Cliente();
 
         oClientes.setId(txtID.getText());
         oClientes.setNombre(txtNombre.getText());
@@ -587,6 +588,33 @@ public class ClientesGUI extends javax.swing.JFrame {
             jNacimientoIdentificacion.setVisible(true);
             txtNacimiento.setVisible(true);
         }
+    }
+    
+    public Cliente listarID (String identificacion){
+
+        Cliente oCliente = new Cliente();
+        String strSentenciaSQL = "select * FROM Clientes WHERE Identificacion= ?";
+        
+        try{
+            conexion objConexion = new conexion();
+            ResultSet resultado = objConexion.listar(strSentenciaSQL, 1, identificacion);
+            
+            while(resultado.next()){
+                oCliente.setId(resultado.getString(1));
+                oCliente.setNombre( resultado.getString(2));
+                oCliente.setApellidos(resultado.getString(3));
+                oCliente.setDireccion(resultado.getString(4));
+                oCliente.setTelefono(resultado.getString(5));
+                oCliente.setJuridica_natural(resultado.getString(6));
+                oCliente.setNit_email(resultado.getString(7));
+                oCliente.setNacimiento(resultado.getString(8));
+            }
+        }
+        catch (Exception e){
+            
+        }
+
+        return oCliente;
     }
     /**
      * @param args the command line arguments
