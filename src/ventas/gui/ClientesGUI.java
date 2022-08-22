@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.PreparedStatement;
+import ventas.gui.TransaccionGUI;
 
 public class ClientesGUI extends javax.swing.JFrame {
 

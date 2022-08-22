@@ -7,6 +7,7 @@ package ventas.gui;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -568,7 +569,13 @@ public class ProductosGUI extends javax.swing.JFrame {
         if (txtCodigo.getText().matches("[+-]?\\d*(\\.\\d+)?") == false){
             JOptionPane.showMessageDialog(this, "La identificacion solo admite numeros");
             return true;
-        }else if (txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty()
+        }/*if(rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("COLOMBIA")==false || rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("ECUADOR")==false 
+                ||rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("ARGENTINA")==false ||rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("CHILE")==false 
+                ||rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("PERU")==false){
+            JOptionPane.showMessageDialog(this, "Solo se permite los siguientes paises: Colombia, Peru, Chile, Ecuador y Argentina");
+            return true;
+        }*/
+        else if (txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty()
                 || txtValorUnitario.getText().isEmpty() || txtCantidadExistente.getText().isEmpty() || jFecha.getText().isEmpty() && rbPerecederos.isSelected()
                 || (jFecha.getText().isEmpty() && jPesoTemperatura.getText().isEmpty() && jPaisCodigo.getText().isEmpty() && rbEnvasados.isSelected())
                 || (jPesoTemperatura.getText().isEmpty() && jPaisCodigo.getText().isEmpty() && rbRefrigerados.isSelected())
@@ -609,6 +616,33 @@ public class ProductosGUI extends javax.swing.JFrame {
             jPaisCodigo.setVisible(true);
             txtPaisCodigo.setVisible(true);
         }
+    }
+    public Producto listarCodigo (String codigo){
+
+        Producto oProducto = new Producto();
+        String strSentenciaSQL = "select * FROM Productos WHERE Codigo= ?";
+        
+        try{
+            conexion objConexion = new conexion();
+            ResultSet resultado = objConexion.listar(strSentenciaSQL, 1, codigo);
+            
+            while(resultado.next()){
+                oProducto.setCodigo(resultado.getString(1));
+                oProducto.setNombre( resultado.getString(2));
+                oProducto.setDescripcion(resultado.getString(3));
+                oProducto.setValorUnitario(resultado.getString(4));
+                oProducto.setCantidadExistencia(resultado.getString(5));
+                oProducto.setTipoProductos(resultado.getString(6));
+                oProducto.setFechaEnvasado_caducidad(resultado.getString(7));
+                oProducto.setPeso_temperatura(resultado.getString(8));
+                oProducto.setPais_codigo(resultado.getString(9));                
+            }
+        }
+        catch (Exception e){
+            
+        }
+
+        return oProducto;
     }
 
     /**
