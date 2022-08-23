@@ -441,7 +441,7 @@ public class ClientesGUI extends javax.swing.JFrame {
         
             String strSentenciaInsert = String.format("UPDATE Clientes SET Identificacion= '%s', Nombre = '%s', Apellidos = '%s',"
                 + "Direccion = '%s', Telefono = '%s', Juridica_Natural = '%s', Nit_Email = '%s',"
-                + "Nacimiento = '%s' WHERE Identificacion = %s", oClientes.getId(), oClientes.getNombre(),
+                + "Nacimiento = '%s' WHERE Identificacion = '%s'", oClientes.getId(), oClientes.getNombre(),
                 oClientes.getApellidos(), oClientes.getDireccion(), oClientes.getTelefono(), oClientes.getJuridica_natural(),
                 oClientes.getNit_email(), oClientes.getNacimiento(), oClientes.getId());        
         
