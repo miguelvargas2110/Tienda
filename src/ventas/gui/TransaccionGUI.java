@@ -14,6 +14,9 @@ import ventas.bl.Transaccion;
 import ventas.dal.conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
+import ventas.Ventas;
+import ventas.bl.DetalleVenta;
 
 /**
  *
@@ -22,6 +25,7 @@ import java.sql.PreparedStatement;
 public class TransaccionGUI extends javax.swing.JFrame {
 
     Producto producto = new Producto();
+    Cliente cliente = new Cliente();
     String codigoProducto = "";
     DefaultTableModel modelo = new DefaultTableModel();
     int cantidad = 0;
@@ -32,6 +36,8 @@ public class TransaccionGUI extends javax.swing.JFrame {
     ResultSet rs;
     conexion cn = new conexion();
     Connection con;
+    Transaccion venta = new Transaccion();
+    DetalleVenta detalleVenta = new DetalleVenta();
     
 
     /**
@@ -57,8 +63,8 @@ public class TransaccionGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtIdCliente = new javax.swing.JTextField();
         txtCodigoProducto = new javax.swing.JTextField();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jTextField3 = new javax.swing.JTextField();
+        txtFecha = new com.toedter.calendar.JDateChooser();
+        txtCodigoVenta = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JSpinner();
         btnBuscarCliente = new javax.swing.JButton();
@@ -78,8 +84,10 @@ public class TransaccionGUI extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         txtTotalPagar = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
+        btnConfirmarVenta = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        txtIva = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -99,9 +107,9 @@ public class TransaccionGUI extends javax.swing.JFrame {
             }
         });
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        txtCodigoVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                txtCodigoVentaActionPerformed(evt);
             }
         });
 
@@ -171,13 +179,13 @@ public class TransaccionGUI extends javax.swing.JFrame {
                                     .addComponent(txtPrecioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtCodigoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtStock, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
+                                    .addComponent(txtFecha, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -233,9 +241,9 @@ public class TransaccionGUI extends javax.swing.JFrame {
                     .addComponent(txtPrecioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCodigoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
                         .addComponent(jLabel3)))
                 .addContainerGap())
@@ -273,14 +281,18 @@ public class TransaccionGUI extends javax.swing.JFrame {
 
         jLabel6.setText("Total a pagar:");
 
-        jButton4.setText("Confirmar Venta");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnConfirmarVenta.setText("Confirmar Venta");
+        btnConfirmarVenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnConfirmarVentaActionPerformed(evt);
             }
         });
 
         jButton5.setText("Cancelar");
+
+        jLabel11.setText("IVA:");
+
+        txtIva.setText("jTextField1");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -290,8 +302,12 @@ public class TransaccionGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton5)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addGap(48, 48, 48)
+                .addComponent(btnConfirmarVenta)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtTotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -304,8 +320,10 @@ public class TransaccionGUI extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(jButton4)
-                        .addComponent(jButton5))
+                        .addComponent(btnConfirmarVenta)
+                        .addComponent(jButton5)
+                        .addComponent(jLabel11)
+                        .addComponent(txtIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtTotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -336,17 +354,19 @@ public class TransaccionGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void txtCodigoVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoVentaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtCodigoVentaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         agregarProducto();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnConfirmarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarVentaActionPerformed
+        guardarVenta();
+        guardarDetalle();
+        
+    }//GEN-LAST:event_btnConfirmarVentaActionPerformed
 
     private void txtClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClienteActionPerformed
         // TODO add your handling code here:
@@ -368,13 +388,45 @@ public class TransaccionGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodigoProductoActionPerformed
 
-    /*
+    void guardarVenta(){
+        String idCliente = cliente.getId();
+        String codigoVenta = txtCodigoVenta.getText();
+        /*SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        String fecha = formatoFecha.format(txtFecha.getDate()); */
+        double monto = totalPagar;
+        
+        venta.setIdCliente(""+idCliente);
+        venta.setCodigoVenta(codigoVenta);
+        //venta.setFechaVenta(fecha);
+        venta.setTotal(""+monto);
+        guardarVentas(venta);
+        
+    }
+    
+    void guardarDetalle(){
+        String idv = idVentas();
+        int idve = Integer.parseInt(idv);
+        for (int i = 0; i < tblDetalleVentas.getRowCount(); i++) {
+            String codigoProducto = (tblDetalleVentas.getValueAt(i, 0).toString());
+            String nombreProducto = (tblDetalleVentas.getValueAt(i, 1).toString());
+            String cantidad = (tblDetalleVentas.getValueAt(i, 2).toString());
+            String precio  = (tblDetalleVentas.getValueAt(i, 4).toString());
+            detalleVenta.setCodigoProducto(codigoProducto);
+            detalleVenta.setNombreProducto(nombreProducto);
+            detalleVenta.setCantidadProductos(cantidad);
+            detalleVenta.setSubtotal(cantidad);
+            guardarDetallesVenta(detalleVenta);
+        }
+        
+    }
+   
+    
     public String idVentas(){
         String idVenta = "";
-        String sql = "select max (Ideventas)from ventas";
+        String sql = "select max (IdCliente)from ventas";
         
         try {
-            Conexion objConexion = new Conexion();
+            conexion objConexion = new conexion();
         
             ResultSet resultado = objConexion.consultarRegistros(sql);
             while (resultado.next()){
@@ -389,11 +441,15 @@ public class TransaccionGUI extends javax.swing.JFrame {
     
     public int guardarVentas (Transaccion venta){
         Transaccion ventas = new Transaccion();
-        String sql = "insert into Ventas(Codigo, Fecha, Total, Iva)values (?,?,?,?,?)";
+        String sql = "insert into Ventas(IdCliente, Codigo, Fecha, Total, Iva)values (?,?,?,?,?)";
         try {
             con = cn.conectar();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, rta);
+            ps.setString(1, venta.getIdCliente());
+            ps.setString(2, venta.getCodigoVenta());
+            ps.setString(3, venta.getFechaVenta());
+            ps.setString(4, venta.getTotal());
+            ps.setString(5, venta.getIva());
             rta = ps.executeUpdate();
             
         } catch (Exception e) {
@@ -401,9 +457,22 @@ public class TransaccionGUI extends javax.swing.JFrame {
         return rta;
     }
     
-    public int guardarDeatallesVenta (DetallesVenta detalle){
+    public int guardarDetallesVenta (DetalleVenta detalle){
+        String sql = "insert into Ventas(CodigoProducto, NombreProducto, CantidadProducto, Subtotal)values (?,?,?,?)";
+        try{
+            con = cn.conectar();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, detalle.getCodigoProducto());
+            ps.setString(2, detalle.getNombreProducto());
+            ps.setString(3, detalle.getCantidadProductos());
+            ps.setString(4, detalle.getSubtotal());
+            rta = ps.executeUpdate();
+            
+        } catch (Exception e){
+            
+        }
         return rta;
-    }*/
+    }
     
     void agregarProducto() {
         modelo = (DefaultTableModel) tblDetalleVentas.getModel();
@@ -454,9 +523,9 @@ public class TransaccionGUI extends javax.swing.JFrame {
         if (txtIdCliente.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Debe ingresar un codigo de Cliente");
         } else {
-            Cliente oCliente = new ClientesGUI().listarID(id);
-            if (oCliente.getId() != null) {
-                txtCliente.setText(oCliente.getNombre());
+            cliente = new ClientesGUI().listarID(id);
+            if (cliente.getId() != null) {
+                txtCliente.setText(cliente.getNombre());
                 txtCodigoProducto.requestFocus();
             } else {
                 r = JOptionPane.showConfirmDialog(this, "El cliente aun no esta registrado. ¿Desea registrarlo?");
@@ -559,12 +628,12 @@ public class TransaccionGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarCliente;
     private javax.swing.JButton btnBuscarProducto;
+    private javax.swing.JButton btnConfirmarVenta;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -577,12 +646,14 @@ public class TransaccionGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tblDetalleVentas;
     private javax.swing.JSpinner txtCantidad;
     private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtCodigoProducto;
+    private javax.swing.JTextField txtCodigoVenta;
+    private com.toedter.calendar.JDateChooser txtFecha;
     private javax.swing.JTextField txtIdCliente;
+    private javax.swing.JTextField txtIva;
     private javax.swing.JTextField txtPrecioProducto;
     private javax.swing.JTextField txtProducto;
     private javax.swing.JTextField txtStock;
