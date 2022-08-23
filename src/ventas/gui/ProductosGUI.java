@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import ventas.bl.Producto;
-import ventas.dal.conexion;
+import ventas.dal.Conexion;
 
 /**
  *
@@ -38,6 +38,8 @@ public class ProductosGUI extends javax.swing.JFrame {
         
         modelo = new DefaultTableModel(null, titulos);
         tblProductos.setModel(modelo);
+        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         
         mostrarDatos();
         
@@ -337,11 +339,15 @@ public class ProductosGUI extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
-        conexion objConexion = new conexion();
+        Conexion objConexion = new Conexion();
 
         if (espaciosVacios() == true) {
         } else {
             Producto oProductos = recuperarDatosGUI();
+            
+            if(rbEnvasados.isSelected()){
+                
+            }
 
             String strSentenciaInsert = String.format("INSERT INTO Productos (Codigo, Nombre, Descripcion, ValorUnitario, CantidadExistente, "
                     + "TipoProducto, FechaEnvasado_Vencimiento, Peso_temperatura, Pais_Codigo)"
@@ -359,7 +365,7 @@ public class ProductosGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        conexion objConexion = new conexion();
+        Conexion objConexion = new Conexion();
 
         if (espaciosVacios()) {
         } else {
@@ -443,7 +449,7 @@ public class ProductosGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        conexion objConexion = new conexion();
+        Conexion objConexion = new Conexion();
 
         Producto oProductos = recuperarDatosGUI();
 
@@ -470,7 +476,7 @@ public class ProductosGUI extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
 
-        conexion objConexion = new conexion();
+        Conexion objConexion = new Conexion();
 
         try {
             ResultSet resultado = objConexion.consultarRegistros("Select * FROM Productos");
@@ -522,17 +528,22 @@ public class ProductosGUI extends javax.swing.JFrame {
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
             String fecha = formatoFecha.format(txtFecha.getDate());
             oProductos.setFechaEnvasado_caducidad(fecha);
+            oProductos.setPeso_temperatura(txtPesoTemperatura.getText());
+            oProductos.setPais_codigo(txtPaisCodigo.getText());
         } else if (rbPerecederos.isSelected()) {
             oProductos.setTipoProductos("Perecedero");
             SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
             String fecha = formatoFecha.format(txtFecha.getDate());
             oProductos.setFechaEnvasado_caducidad(fecha);
+            oProductos.setPais_codigo("");
+            oProductos.setPeso_temperatura("");
         } else {
             oProductos.setTipoProductos("Refrigerado");
             oProductos.setFechaEnvasado_caducidad("");
+            oProductos.setPeso_temperatura(txtPesoTemperatura.getText());
+            oProductos.setPais_codigo(txtPaisCodigo.getText());
         }
-        oProductos.setPeso_temperatura(txtPesoTemperatura.getText());
-        oProductos.setPais_codigo(txtPaisCodigo.getText());
+
 
         return oProductos;
     }
@@ -567,18 +578,16 @@ public class ProductosGUI extends javax.swing.JFrame {
     
     public boolean espaciosVacios(){
         if (txtCodigo.getText().matches("[+-]?\\d*(\\.\\d+)?") == false){
-            JOptionPane.showMessageDialog(this, "La identificacion solo admite numeros");
+            JOptionPane.showMessageDialog(this, "El codigo solo admite numeros");
             return true;
-        }/*if(rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("COLOMBIA")==false || rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("ECUADOR")==false 
-                ||rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("ARGENTINA")==false ||rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("CHILE")==false 
-                ||rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("PERU")==false){
+        }if((rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("COLOMBIA")==false) ){
             JOptionPane.showMessageDialog(this, "Solo se permite los siguientes paises: Colombia, Peru, Chile, Ecuador y Argentina");
             return true;
-        }*/
+        }
         else if (txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty() || txtDescripcion.getText().isEmpty()
-                || txtValorUnitario.getText().isEmpty() || txtCantidadExistente.getText().isEmpty() || jFecha.getText().isEmpty() && rbPerecederos.isSelected()
-                || (jFecha.getText().isEmpty() && jPesoTemperatura.getText().isEmpty() && jPaisCodigo.getText().isEmpty() && rbEnvasados.isSelected())
-                || (jPesoTemperatura.getText().isEmpty() && jPaisCodigo.getText().isEmpty() && rbRefrigerados.isSelected())
+                || txtValorUnitario.getText().isEmpty() || txtCantidadExistente.getText().isEmpty() || (txtFecha.getDate() == null && rbPerecederos.isSelected())
+                || (txtFecha.getDate() == null || txtPesoTemperatura.getText().isEmpty() || txtPaisCodigo.getText().isEmpty() && rbEnvasados.isSelected())
+                || (txtPesoTemperatura.getText().isEmpty() || txtPaisCodigo.getText().isEmpty() && rbRefrigerados.isSelected())
                 || (rbPerecederos.isSelected() == false && rbEnvasados.isSelected() == false && rbRefrigerados.isSelected() == false)) {
             JOptionPane.showMessageDialog(this, "Por Favor rellenar todos los campos");
             return true;
@@ -623,7 +632,7 @@ public class ProductosGUI extends javax.swing.JFrame {
         String strSentenciaSQL = "select * FROM Productos WHERE Codigo= ?";
         
         try{
-            conexion objConexion = new conexion();
+            Conexion objConexion = new Conexion();
             ResultSet resultado = objConexion.listar(strSentenciaSQL, 1, codigo);
             
             while(resultado.next()){

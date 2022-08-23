@@ -9,7 +9,7 @@ package ventas.gui;
  * @author migue
  */
 
-import ventas.dal.conexion;
+import ventas.dal.Conexion;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -25,6 +25,7 @@ import ventas.gui.TransaccionGUI;
 public class ClientesGUI extends javax.swing.JFrame {
 
     DefaultTableModel modelo;
+    TransaccionGUI tg = new TransaccionGUI();
     /**
      * Creates new form registro
      */
@@ -39,6 +40,9 @@ public class ClientesGUI extends javax.swing.JFrame {
         
         modelo = new DefaultTableModel(null, titulos);
         tblClientes.setModel(modelo);
+        
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
         mostrarDatos();
         limpiar();
         
@@ -349,7 +353,7 @@ public class ClientesGUI extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
-        conexion objConexion = new conexion();
+        Conexion objConexion = new Conexion();
         
         if(espaciosVacios() == true){
         }else{
@@ -414,7 +418,7 @@ public class ClientesGUI extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         
-        conexion objConexion = new conexion();
+        Conexion objConexion = new Conexion();
 
         Cliente oClientes = recuperarDatosGUI();
 
@@ -430,7 +434,7 @@ public class ClientesGUI extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         
-        conexion objConexion = new conexion();
+        Conexion objConexion = new Conexion();
         
         if(espaciosVacios()){  
         }else{
@@ -479,7 +483,7 @@ public class ClientesGUI extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
         
-        conexion objConexion = new conexion();
+        Conexion objConexion = new Conexion();
         
         try {
             ResultSet resultado = objConexion.consultarRegistros("Select * FROM Clientes");
@@ -596,7 +600,7 @@ public class ClientesGUI extends javax.swing.JFrame {
         String strSentenciaSQL = "select * FROM Clientes WHERE Identificacion= ?";
         
         try{
-            conexion objConexion = new conexion();
+            Conexion objConexion = new Conexion();
             ResultSet resultado = objConexion.listar(strSentenciaSQL, 1, identificacion);
             
             while(resultado.next()){
