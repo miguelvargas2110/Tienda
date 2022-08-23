@@ -9,7 +9,7 @@ package ventas.gui;
  * @author migue
  */
 
-import ventas.dal.Conexion;
+import ventas.dal.conexion;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -353,7 +353,7 @@ public class ClientesGUI extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
         
         if(espaciosVacios() == true){
         }else{
@@ -418,7 +418,7 @@ public class ClientesGUI extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
 
         Cliente oClientes = recuperarDatosGUI();
 
@@ -434,7 +434,7 @@ public class ClientesGUI extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
         
         if(espaciosVacios()){  
         }else{
@@ -483,7 +483,7 @@ public class ClientesGUI extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
         
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
         
         try {
             ResultSet resultado = objConexion.consultarRegistros("Select * FROM Clientes");
@@ -600,7 +600,7 @@ public class ClientesGUI extends javax.swing.JFrame {
         String strSentenciaSQL = "select * FROM Clientes WHERE Identificacion= ?";
         
         try{
-            Conexion objConexion = new Conexion();
+            conexion objConexion = new conexion();
             ResultSet resultado = objConexion.listar(strSentenciaSQL, 1, identificacion);
             
             while(resultado.next()){

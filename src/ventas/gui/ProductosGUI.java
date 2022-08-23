@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import ventas.bl.Producto;
-import ventas.dal.Conexion;
+import ventas.dal.conexion;
 
 /**
  *
@@ -339,7 +339,7 @@ public class ProductosGUI extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
 
         if (espaciosVacios() == true) {
         } else {
@@ -365,7 +365,7 @@ public class ProductosGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
 
         if (espaciosVacios()) {
         } else {
@@ -449,7 +449,7 @@ public class ProductosGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
 
         Producto oProductos = recuperarDatosGUI();
 
@@ -476,7 +476,7 @@ public class ProductosGUI extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
 
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
 
         try {
             ResultSet resultado = objConexion.consultarRegistros("Select * FROM Productos");
@@ -632,7 +632,7 @@ public class ProductosGUI extends javax.swing.JFrame {
         String strSentenciaSQL = "select * FROM Productos WHERE Codigo= ?";
         
         try{
-            Conexion objConexion = new Conexion();
+            conexion objConexion = new conexion();
             ResultSet resultado = objConexion.listar(strSentenciaSQL, 1, codigo);
             
             while(resultado.next()){

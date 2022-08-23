@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import ventas.bl.Cliente;
 import ventas.bl.Producto;
 import ventas.bl.Transaccion;
-import ventas.dal.Conexion;
+import ventas.dal.conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -30,7 +30,7 @@ public class TransaccionGUI extends javax.swing.JFrame {
     int rta = 0;
     PreparedStatement ps;
     ResultSet rs;
-    Conexion cn = new Conexion();
+    conexion cn = new conexion();
     Connection con;
     
 
@@ -391,7 +391,7 @@ public class TransaccionGUI extends javax.swing.JFrame {
         Transaccion ventas = new Transaccion();
         String sql = "insert into Ventas(Codigo, Fecha, Total, Iva)values (?,?,?,?,?)";
         try {
-            con = cn.conexion();
+            con = cn.conectar();
             ps = con.prepareStatement(sql);
             ps.setInt(1, rta);
             rta = ps.executeUpdate();
@@ -496,7 +496,7 @@ public class TransaccionGUI extends javax.swing.JFrame {
             modelo.removeRow(0);
         }
 
-        Conexion objConexion = new Conexion();
+        conexion objConexion = new conexion();
 
         try {
             ResultSet resultado = objConexion.consultarRegistros("Select * FROM DetallesVenta");
