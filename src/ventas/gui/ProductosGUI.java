@@ -86,7 +86,10 @@ public class ProductosGUI extends javax.swing.JFrame {
         tblProductos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(204, 255, 204));
+        setLocation(new java.awt.Point(500, 200));
 
+        jPanel1.setBackground(new java.awt.Color(204, 255, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
         jPanel1.setPreferredSize(new java.awt.Dimension(588, 304));
 
@@ -133,6 +136,7 @@ public class ProductosGUI extends javax.swing.JFrame {
             }
         });
 
+        rbPerecederos.setBackground(new java.awt.Color(204, 255, 204));
         rbPerecederos.setText("Producto Perecedero");
         rbPerecederos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,6 +144,7 @@ public class ProductosGUI extends javax.swing.JFrame {
             }
         });
 
+        rbEnvasados.setBackground(new java.awt.Color(204, 255, 204));
         rbEnvasados.setText("Producto Envasados");
         rbEnvasados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +152,7 @@ public class ProductosGUI extends javax.swing.JFrame {
             }
         });
 
+        rbRefrigerados.setBackground(new java.awt.Color(204, 255, 204));
         rbRefrigerados.setText("Producto Refrigerado");
         rbRefrigerados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -276,6 +282,7 @@ public class ProductosGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jPanel2.setBackground(new java.awt.Color(204, 255, 204));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla Productos"));
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
@@ -482,15 +489,15 @@ public class ProductosGUI extends javax.swing.JFrame {
             ResultSet resultado = objConexion.consultarRegistros("Select * FROM Productos");
 
             while (resultado.next()) {
-                System.out.println(resultado.getString("Codigo"));
-                System.out.println(resultado.getString("Nombre"));
-                System.out.println(resultado.getString("Descripcion"));
-                System.out.println(resultado.getString("ValorUnitario"));
-                System.out.println(resultado.getString("CantidadExistente"));
-                System.out.println(resultado.getString("TipoProducto"));
-                System.out.println(resultado.getString("FechaEnvasado_Vencimiento"));
-                System.out.println(resultado.getString("Peso_Temperatura"));
-                System.out.println(resultado.getString("Pais_Codigo"));
+                resultado.getString("Codigo");
+                resultado.getString("Nombre");
+                resultado.getString("Descripcion");
+                resultado.getString("ValorUnitario");
+                resultado.getString("CantidadExistente");
+                resultado.getString("TipoProducto");
+                resultado.getString("FechaEnvasado_Vencimiento");
+                resultado.getString("Peso_Temperatura");
+                resultado.getString("Pais_Codigo");
 
                 if ("Envasado".equals(resultado.getString("TipoProducto"))) {
                     rbEnvasados.setSelected(true);
@@ -580,7 +587,11 @@ public class ProductosGUI extends javax.swing.JFrame {
         if (txtCodigo.getText().matches("[+-]?\\d*(\\.\\d+)?") == false){
             JOptionPane.showMessageDialog(this, "El codigo solo admite numeros");
             return true;
-        }if((rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("COLOMBIA")==false) ){
+        }if((rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("COLOMBIA")==false) && 
+            (rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("ARGENTINA")==false) &&
+            (rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("ECUADOR")==false) &&
+            (rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("CHILE")==false) &&
+            (rbEnvasados.isSelected() && txtPaisCodigo.getText().toUpperCase().equals("PERU")==false)){
             JOptionPane.showMessageDialog(this, "Solo se permite los siguientes paises: Colombia, Peru, Chile, Ecuador y Argentina");
             return true;
         }
@@ -652,42 +663,6 @@ public class ProductosGUI extends javax.swing.JFrame {
         }
 
         return oProducto;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProductosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProductosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProductosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProductosGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProductosGUI().setVisible(true);
-            }
-        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
